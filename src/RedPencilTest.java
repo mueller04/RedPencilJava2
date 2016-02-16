@@ -115,9 +115,9 @@ public class RedPencilTest {
     @Test
     public void promotionBeginDateIsNotExtendedToCurrentDayIfPriceIsChangedAgainDuringAPromotion(){
         //Arrange
-        promotionRequestor.requestReducePriceAndBeginPromotion(1.30);
         LocalDate date = LocalDate.now();
         LocalDate beginPromoDate15DaysAgo = date.minusDays(15);
+        itemManager.setLastPriceChangeDate(beginPromoDate15DaysAgo);
         itemManager.setPromotionBeginDate(beginPromoDate15DaysAgo);
         itemManager.setIsPromotion(true);
 
@@ -144,14 +144,29 @@ public class RedPencilTest {
     @Test
     public void priceIncreaseEndsPromotion(){
         //Arrange
-        promotionRequestor.requestReducePriceAndBeginPromotion(1.30);
-        assertEquals(true, itemManager.isPromotion());
+        itemManager.setLastPriceChangeDate(LocalDate.now());
+        itemManager.setPromotionBeginDate(LocalDate.now());
+        itemManager.setIsPromotion(true);
 
         //Act
         itemManager.increasePrice(1.30);
 
         //Assert
         assertEquals(false, itemManager.isPromotion());
+        assertEquals(null, itemManager.getOriginalPrice());
+    }
+
+    @Test
+    public void priceIncreaseNullifiesOriginalPrice(){
+        //Arrange
+        itemManager.setLastPriceChangeDate(LocalDate.now());
+        itemManager.setPromotionBeginDate(LocalDate.now());
+        itemManager.setIsPromotion(true);
+
+        //Act
+        itemManager.increasePrice(1.30);
+
+        //Assert
         assertEquals(null, itemManager.getOriginalPrice());
     }
 
