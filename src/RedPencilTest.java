@@ -188,7 +188,6 @@ public class RedPencilTest {
     @Test
     public void last30DaysofStablePriceIntersectsWithLastPromotionRunNoNewPromotionBegins(){
         //Arrange
-
         LocalDate date = LocalDate.now();
         LocalDate beginPromoDate45DaysAgo = date.minusDays(45);
         itemManager.setPromotionBeginDate(beginPromoDate45DaysAgo);
@@ -204,10 +203,8 @@ public class RedPencilTest {
     @Test
     public void last30DaysofStablePriceDoesNotIntersectsWithLastPromotionSoNewPromotionBegins(){
         //Arrange
-
         LocalDate date = LocalDate.now();
-        LocalDate beginPromoDate45DaysAgo = date.minusDays(62);
-        itemManager.setPromotionBeginDate(beginPromoDate45DaysAgo);
+        itemManager.setPromotionBeginDate(date.minusDays(62));
         itemManager.setLastPriceChangeDate(date.minusDays(31));
 
         //Act
