@@ -11,6 +11,7 @@ public class Item {
 
     public Item(String name, Double price) {
         this.price = price;
+        this.originalPrice = price;
         this.name = name;
     }
 

@@ -173,8 +173,10 @@ public class RedPencilTest {
     @Test
     public void priceReducedMoreThan30PercentFromOriginalPricePercentEndsPromotion(){
         //Arrange
-        promotionRequestor.requestReducePriceAndBeginPromotion(1.00);
-        assertEquals(true, itemManager.isPromotion());
+        itemManager.setLastPriceChangeDate(LocalDate.now());
+        itemManager.setPromotionBeginDate(LocalDate.now());
+        itemManager.setIsPromotion(true);
+        itemManager.calculatePrice(1.00, false);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(1.51);
