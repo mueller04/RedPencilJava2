@@ -25,5 +25,3 @@ PromotionManager promotionManager;
     }
 
 }
-
-//comment

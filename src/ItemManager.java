@@ -11,24 +11,26 @@ public class ItemManager {
 
     public boolean isPromotion(){
         LocalDate now = LocalDate.now();
-        if (item.getBeginPromoDate() != null ) {
+        if (getPromotionDate() != null ) {
             if (ChronoUnit.DAYS.between(item.getBeginPromoDate(), now) > 30) {
-                item.setIsPromotion(false);
+                setIsPromotion(false);
             }
         }
-            return item.getIsPromotion();
+            return getIsPromotion();
     }
 
-
-    //is it an okay design pattern to pass this
     public void increasePrice(Double price) {
-        item.calculatePrice(price, true);
-        item.expirePromotion();
+        calculatePrice(price, true);
+        expirePromotion();
     }
 
     public void beginPromotion() {
-        item.setBeginPromoDate(LocalDate.now());
-        item.setIsPromotion(true);
+        setPromotionBeginDate(LocalDate.now());
+        setIsPromotion(true);
+    }
+
+    public void expirePromotion() {
+        item.expirePromotion();
     }
 
     //Setters and Getters
@@ -43,6 +45,8 @@ public class ItemManager {
     public void setIsPromotion(boolean isPromotion) {
         item.setIsPromotion(isPromotion);
     }
+
+    public boolean getIsPromotion() {return item.getIsPromotion();}
 
     public LocalDate getPromotionDate(){
             return item.getBeginPromoDate();
