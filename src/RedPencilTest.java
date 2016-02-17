@@ -1,9 +1,9 @@
-import static org.junit.Assert.*;
-
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
 import java.time.LocalDate;
+
+import static org.junit.Assert.assertEquals;
 
 public class RedPencilTest {
     PromotionRequestor promotionRequestor;
@@ -15,12 +15,12 @@ public class RedPencilTest {
     public void setUp() {
         item = new Item("pen", 5.00);
         itemManager = new ItemManager(item);
-        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
     }
 
     @Test
     public void promotionBeginsWhenReductionBetween5And30Percent(){
         //Arrange
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(1.30);
@@ -32,6 +32,7 @@ public class RedPencilTest {
     @Test
     public void promotionDoesNotBeginWhenReductionisLessThan5Percent(){
         //Arrange
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(.24);
@@ -43,6 +44,7 @@ public class RedPencilTest {
     @Test
     public void promotionDoesNotBeginWhenReductionisGreaterThan30Percent(){
         //Arrange
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(1.51);
@@ -54,6 +56,7 @@ public class RedPencilTest {
     @Test
     public void priceReduceswhenrequestReducePriceCalledWithReductionLowerThanOriginalPrice(){
         //Arrange
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(1.20);
@@ -65,6 +68,7 @@ public class RedPencilTest {
     @Test
     public void priceNotReducedwhenrequestReducePriceCalledWithPriceHigherThanOriginalPrice(){
         //Arrange
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(5.01);
@@ -76,6 +80,7 @@ public class RedPencilTest {
     @Test
     public void priceReducedwhenRequestReducePriceCalledWithPriceHigherThan30PercentButAlsoLowerThanOriginalPrice(){
         //Arrange
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(2.00);
@@ -87,6 +92,7 @@ public class RedPencilTest {
     @Test
     public void aPromotionLasts30DaysMax(){
         //Arrange
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
         LocalDate date = LocalDate.now();
         LocalDate beginPromoDate = date.minusDays(31);
         itemManager.setIsPromotion(true);
@@ -101,6 +107,7 @@ public class RedPencilTest {
     @Test
     public void priceHasNotBeenStable30DaysNoPromotionBegins(){
         //Arrange
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
         LocalDate lastPriceChangeDate = LocalDate.now().minusDays(15);
         itemManager.setLastPriceChangeDate(lastPriceChangeDate);
 
@@ -115,23 +122,21 @@ public class RedPencilTest {
     @Test
     public void promotionBeginDateIsNotExtendedToCurrentDayIfPriceIsChangedAgainDuringAPromotion(){
         //Arrange
-        LocalDate date = LocalDate.now();
-        LocalDate beginPromoDate15DaysAgo = date.minusDays(15);
-        itemManager.setLastPriceChangeDate(beginPromoDate15DaysAgo);
-        itemManager.setPromotionBeginDate(beginPromoDate15DaysAgo);
-        itemManager.setIsPromotion(true);
+        itemManager = createItemManager(15, 15, true, item);
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(.80);
 
         //Assert
-        assertEquals(beginPromoDate15DaysAgo, itemManager.getPromotionDate());
+        assertEquals(LocalDate.now().minusDays(15), itemManager.getPromotionDate());
         assertEquals(true, itemManager.isPromotion());
     }
 
     @Test
     public void beginpromotionDateBeginsOnTheDayAPromotionIsCreated(){
         //Arrange
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(1.30);
@@ -144,9 +149,8 @@ public class RedPencilTest {
     @Test
     public void priceIncreaseEndsPromotion(){
         //Arrange
-        itemManager.setLastPriceChangeDate(LocalDate.now());
-        itemManager.setPromotionBeginDate(LocalDate.now());
-        itemManager.setIsPromotion(true);
+        itemManager = createItemManager(0, 0, true, item);
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         itemManager.increasePrice(1.30);
@@ -159,9 +163,8 @@ public class RedPencilTest {
     @Test
     public void priceIncreaseNullifiesOriginalPrice(){
         //Arrange
-        itemManager.setLastPriceChangeDate(LocalDate.now());
-        itemManager.setPromotionBeginDate(LocalDate.now());
-        itemManager.setIsPromotion(true);
+        itemManager = createItemManager(0, 0, true, item);
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         itemManager.increasePrice(1.30);
@@ -173,9 +176,8 @@ public class RedPencilTest {
     @Test
     public void priceReducedMoreThan30PercentFromOriginalPricePercentEndsPromotion(){
         //Arrange
-        itemManager.setLastPriceChangeDate(LocalDate.now());
-        itemManager.setPromotionBeginDate(LocalDate.now());
-        itemManager.setIsPromotion(true);
+        itemManager = createItemManager(0, 0, true, item);
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
         itemManager.calculatePrice(1.00, false);
 
         //Act
@@ -188,10 +190,8 @@ public class RedPencilTest {
     @Test
     public void last30DaysofStablePriceIntersectsWithLastPromotionRunNoNewPromotionBegins(){
         //Arrange
-        LocalDate date = LocalDate.now();
-        LocalDate beginPromoDate45DaysAgo = date.minusDays(45);
-        itemManager.setPromotionBeginDate(beginPromoDate45DaysAgo);
-        itemManager.setLastPriceChangeDate(date.minusDays(31));
+        itemManager = createItemManager(45, 20, false, item);
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(1.30);
@@ -203,9 +203,8 @@ public class RedPencilTest {
     @Test
     public void last30DaysofStablePriceDoesNotIntersectsWithLastPromotionSoNewPromotionBegins(){
         //Arrange
-        LocalDate date = LocalDate.now();
-        itemManager.setPromotionBeginDate(date.minusDays(62));
-        itemManager.setLastPriceChangeDate(date.minusDays(31));
+        itemManager = createItemManager(62, 31, false, item);
+        promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
         promotionRequestor.requestReducePriceAndBeginPromotion(1.30);
@@ -213,5 +212,22 @@ public class RedPencilTest {
         //Assert
         assertEquals(true, itemManager.isPromotion());
     }
+
+
+
+    //Helper Methods
+    public ItemManager createItemManager(int beginPromoDateSubtractDays, int lastPriceChangeDateSubtractDays, boolean isPromotion, Item item) {
+
+        ItemManager newItemManager = new ItemManager(item);
+        LocalDate date = LocalDate.now();
+
+        newItemManager.setPromotionBeginDate(date.minusDays(beginPromoDateSubtractDays));
+        newItemManager.setLastPriceChangeDate(date.minusDays(lastPriceChangeDateSubtractDays));
+        newItemManager.setIsPromotion(isPromotion);
+
+        return newItemManager;
+
+    }
+
 
 }
