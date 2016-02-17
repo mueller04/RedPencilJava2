@@ -187,10 +187,11 @@ public class RedPencilTest {
         assertEquals(false, itemManager.isPromotion());
     }
 
+
     @Test
     public void last30DaysofStablePriceIntersectsWithLastPromotionRunNoNewPromotionBegins(){
         //Arrange
-        itemManager = createItemManager(45, 20, false, item);
+        itemManager = createItemManager(45, 31, false, item);
         promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
         //Act
