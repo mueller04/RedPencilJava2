@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class PromotionManager {
@@ -25,6 +27,15 @@ public class PromotionManager {
         return returnFlag;
     }
 
+    public boolean isPromotion(Item item){
+        LocalDate now = LocalDate.now();
+        if (item.getBeginPromoDate() != null ) {
+            if (ChronoUnit.DAYS.between(item.getBeginPromoDate(), now) > 30) {
+                item.setIsPromotion(false);
+            }
+        }
+        return item.getIsPromotion();
+    }
 
 
 }

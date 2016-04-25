@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 public class ItemManager {
 
@@ -9,15 +8,7 @@ public class ItemManager {
         this.item = item;
     }
 
-    public boolean isPromotion(){
-        LocalDate now = LocalDate.now();
-        if (getPromotionDate() != null ) {
-            if (ChronoUnit.DAYS.between(item.getBeginPromoDate(), now) > 30) {
-                setIsPromotion(false);
-            }
-        }
-            return getIsPromotion();
-    }
+
 
     public void increasePrice(Double price) {
         calculatePrice(price, true);

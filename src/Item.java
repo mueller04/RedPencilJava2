@@ -45,7 +45,6 @@ public class Item {
         return originalPrice;
     }
 
-
     public LocalDate getBeginPromoDate() {
         return beginPromoDate;
     }

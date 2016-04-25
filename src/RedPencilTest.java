@@ -26,7 +26,7 @@ public class RedPencilTest {
         promotionRequestor.requestReducePriceAndBeginPromotion(1.30);
 
         //Assert
-        assertEquals(true, itemManager.isPromotion());
+        assertEquals(true, promotionManager.isPromotion(itemManager.getItem()));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class RedPencilTest {
         promotionRequestor.requestReducePriceAndBeginPromotion(.24);
 
         //Assert
-        assertEquals(false, itemManager.isPromotion());
+        assertEquals(false, promotionManager.isPromotion(itemManager.getItem()));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class RedPencilTest {
         promotionRequestor.requestReducePriceAndBeginPromotion(1.51);
 
         //Assert
-        assertEquals(false, itemManager.isPromotion());
+        assertEquals(false, promotionManager.isPromotion(itemManager.getItem()));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class RedPencilTest {
         itemManager.setPromotionBeginDate(beginPromoDate);
 
         //Assert
-        assertEquals(false, itemManager.isPromotion());
+        assertEquals(false, promotionManager.isPromotion(itemManager.getItem()));
     }
 
     @Test
@@ -115,7 +115,7 @@ public class RedPencilTest {
 
         //Assert
         assertEquals(4.00, itemManager.getPrice(), 0);
-        assertEquals(false, itemManager.isPromotion());
+        assertEquals(false, promotionManager.isPromotion(itemManager.getItem()));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class RedPencilTest {
 
         //Assert
         assertEquals(LocalDate.now().minusDays(15), itemManager.getPromotionDate());
-        assertEquals(true, itemManager.isPromotion());
+        assertEquals(true, promotionManager.isPromotion(itemManager.getItem()));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class RedPencilTest {
 
         //Assert
         assertEquals(LocalDate.now(), itemManager.getPromotionDate());
-        assertEquals(true, itemManager.isPromotion());
+        assertEquals(true, promotionManager.isPromotion(itemManager.getItem()));
     }
 
     @Test
@@ -155,7 +155,7 @@ public class RedPencilTest {
         itemManager.increasePrice(1.30);
 
         //Assert
-        assertEquals(false, itemManager.isPromotion());
+        assertEquals(false, promotionManager.isPromotion(itemManager.getItem()));
         assertEquals(null, itemManager.getOriginalPrice());
     }
 
@@ -183,7 +183,7 @@ public class RedPencilTest {
         promotionRequestor.requestReducePriceAndBeginPromotion(1.51);
 
         //Assert
-        assertEquals(false, itemManager.isPromotion());
+        assertEquals(false, promotionManager.isPromotion(itemManager.getItem()));
     }
 
 
@@ -197,7 +197,7 @@ public class RedPencilTest {
         promotionRequestor.requestReducePriceAndBeginPromotion(1.30);
 
         //Assert
-        assertEquals(false, itemManager.isPromotion());
+        assertEquals(false, promotionManager.isPromotion(itemManager.getItem()));
     }
 
     @Test
@@ -210,7 +210,7 @@ public class RedPencilTest {
         promotionRequestor.requestReducePriceAndBeginPromotion(1.30);
 
         //Assert
-        assertEquals(true, itemManager.isPromotion());
+        assertEquals(true, promotionManager.isPromotion(itemManager.getItem()));
     }
 
 
