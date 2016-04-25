@@ -19,5 +19,4 @@ PromotionManager promotionManager;
             itemManager.reducePrice(priceToReduce);
         }
     }
-
 }

@@ -12,12 +12,12 @@ public class PromotionManager {
         promotionRuleList.add(new IsLast30DaysofStablePriceNotInteresectWithLastPromotionRun());
     }
 
-    public boolean areCreatePromotionConditionsMet(Double price,  Item item) {
+    public boolean areCreatePromotionConditionsMet(Double priceToReduce,  Item item) {
         boolean returnFlag = true;
 
         for (PromotionRules promotionRules : promotionRuleList) {
             boolean failedRuleFlag;
-            failedRuleFlag = promotionRules.invokeRule(price, item);
+            failedRuleFlag = promotionRules.invokeRule(priceToReduce, item);
             if (failedRuleFlag == false){
                 returnFlag = failedRuleFlag;
             }
