@@ -66,7 +66,7 @@ public class RedPencilTest {
     }
 
     @Test
-    public void priceNotReducedwhenrequestReducePriceCalledWithPriceHigherThanOriginalPrice(){
+    public void priceNotReducedWhenRequestToReducePriceCalledWithPriceHigherThanOriginalPrice(){
         //Arrange
         promotionRequestor = new PromotionRequestor(itemManager, promotionManager);
 
@@ -247,6 +247,6 @@ public class RedPencilTest {
     private ItemManager createItemWithNoPromotionAndLastPriceChange15DaysAgo() {
         return createItemManager(60, 15, false, item);
     }
-    
+
 
 }

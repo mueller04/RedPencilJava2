@@ -2,6 +2,6 @@
 
 interface PromotionRules {
 
-    public boolean invokeRule(Double price, Item item);
+    boolean invokeRule(Double price, Item item);
 
 }

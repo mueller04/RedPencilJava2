@@ -33,6 +33,12 @@ public class ItemManager {
         item.expirePromotion();
     }
 
+    public void reducePrice(Double priceToReduce) {
+        this.setOriginalPrice(this.getPrice());
+        this.calculatePrice(priceToReduce, false);
+        this.setLastPriceChangeDate(LocalDate.now());
+    }
+
     //Setters and Getters
     public void setOriginalPrice(Double originalPrice) {
         item.setOriginalPrice(originalPrice);

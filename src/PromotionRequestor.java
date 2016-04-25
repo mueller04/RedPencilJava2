@@ -1,5 +1,3 @@
-import java.time.LocalDate;
-
 public class PromotionRequestor {
 
 ItemManager itemManager;
@@ -11,16 +9,14 @@ PromotionManager promotionManager;
     }
 
 
-    public void requestReducePriceAndBeginPromotion(Double price){
+    public void requestReducePriceAndBeginPromotion(Double priceToReduce){
 
-        if (promotionManager.areCreatePromotionConditionsMet(price, itemManager.getItem())){
+        if (promotionManager.areCreatePromotionConditionsMet(priceToReduce, itemManager.getItem())){
             itemManager.beginPromotion();
         }
 
-        if (price < itemManager.getPrice()){
-            itemManager.setOriginalPrice(itemManager.getPrice());
-            itemManager.calculatePrice(price, false);
-            itemManager.setLastPriceChangeDate(LocalDate.now());
+        if (priceToReduce < itemManager.getPrice()){
+            itemManager.reducePrice(priceToReduce);
         }
     }
 
